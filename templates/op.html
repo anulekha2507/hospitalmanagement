@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OP Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 300px;
+        }
+        input, button {
+            width: 93%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .form-field {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .form-field input, .form-field button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        .gender-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .gender-group label {
+            margin-left: 5px;
+            font-size: 14px;
+        }
+        .gender-group input[type="radio"] {
+            margin-right: 5px;
+        }
+        .file-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .file-input-group label {
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        .file-input-group input[type="file"] {
+            padding: 0;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <form action="/submit-op" method="post" enctype="multipart/form-data">
+        <input type="text" name="doctor_name" placeholder="Doctor Name" required>
+        <input type="text" name="diagnostics" placeholder="Diagnostics" required>
+        <input type="text" name="medications" placeholder="Medications" required>
+        <input type="text" name="radiology_interpretation" placeholder="Radiology Interpretation" required>
+        <input type="date" name="next_followup_date" placeholder="Next Follow-Up Date" required>
+        <div class="file-input-group">
+            <label for="prescription">Prescription</label>
+            <input type="file" name="prescription" accept="image/*" multiple required>
+        </div>
+        <input type="text" name="patient_name" placeholder="Patient Name" required>
+        <input type="tel" name="patient_phone" placeholder="Patient Phone" required>
+        <input type="number" name="patient_id" placeholder="Patient ID" required>
+        <div class="gender-group">
+            Gender:
+            <input type="radio" id="male" name="gender" value="male" required>
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female" required>
+            <label for="female">Female</label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
