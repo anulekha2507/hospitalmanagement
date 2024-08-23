@@ -13,85 +13,122 @@
             height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
+            overflow: hidden; /* Prevents body scrolling */
         }
         form {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            width: 300px;
-        }
-        input, button {
-            width: 93%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            width: 420px; /* Set width */
+            max-height: 90vh; /* Limit height to viewport height */
+            overflow: auto; /* Allows scrolling if content exceeds form height */
+            box-sizing: border-box; /* Ensure padding does not affect width */
         }
         .form-field {
-            width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        .form-field input, .form-field button {
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        input, button {
             width: 100%;
-            padding: 10px;
+            padding: 12px; /* Slightly increased padding */
             border-radius: 5px;
             border: 1px solid #ddd;
+            box-sizing: border-box; /* Ensure padding does not affect width */
         }
         button {
             background-color: #007bff;
             color: white;
             border: none;
+            margin-top: 10px;
+        }
+        .file-input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .file-input-group label {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: none;
         }
         .gender-group {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0;
+            margin-bottom: 15px;
         }
         .gender-group label {
-            margin-left: 5px;
-            font-size: 14px;
-        }
-        .gender-group input[type="radio"] {
-            margin-right: 5px;
-        }
-        .file-input-group {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            margin-right: 10px;
         }
-        .file-input-group label {
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-        .file-input-group input[type="file"] {
-            padding: 0;
-            margin-top: 0;
+        .gender-group label input {
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
     <form action="/submit-op" method="post" enctype="multipart/form-data">
-        <input type="text" name="doctor_name" placeholder="Doctor Name" required>
-        <input type="text" name="diagnostics" placeholder="Diagnostics" required>
-        <input type="text" name="medications" placeholder="Medications" required>
-        <input type="text" name="radiology_interpretation" placeholder="Radiology Interpretation" required>
-        <input type="date" name="next_followup_date" placeholder="Next Follow-Up Date" required>
+        <div class="form-field">
+            <label for="doctor_name">Doctor Name</label>
+            <input type="text" id="doctor_name" name="doctor_name" pattern="[A-Za-z ]+" title="Please enter only alphabets." required>
+        </div>
+        <div class="form-field">
+            <label for="diagnostics">Diagnostics</label>
+            <input type="text" id="diagnostics" name="diagnostics" required>
+        </div>
+        <div class="form-field">
+            <label for="medications">Medications</label>
+            <input type="text" id="medications" name="medications" required>
+        </div>
+        <div class="form-field">
+            <label for="radiology_interpretation">Radiology Interpretation</label>
+            <input type="text" id="radiology_interpretation" name="radiology_interpretation" required>
+        </div>
+        <div class="form-field">
+            <label for="next_followup_date">Next Follow-Up Date</label>
+            <input type="date" id="next_followup_date" name="next_followup_date" required>
+        </div>
         <div class="file-input-group">
             <label for="prescription">Prescription</label>
-            <input type="file" name="prescription" accept="image/*" multiple required>
+            <input type="file" id="prescription" name="prescription" accept="image/jpeg,image/png" multiple required>
         </div>
-        <input type="text" name="patient_name" placeholder="Patient Name" required>
-        <input type="tel" name="patient_phone" placeholder="Patient Phone" required>
-        <input type="number" name="patient_id" placeholder="Patient ID" required>
+        <div class="form-field">
+            <label for="patient_name">Patient Name</label>
+            <input type="text" id="patient_name" name="patient_name" pattern="[A-Za-z ]+" title="Please enter only alphabets." required>
+        </div>
+        <div class="form-field">
+            <label for="patient_phone">Patient Phone Number</label>
+            <input type="tel" id="patient_phone" name="patient_phone" pattern="[0-9]+" title="Enter numbers only." required>
+        </div>
+        <div class="form-field">
+            <label for="patient_id">Patient ID</label>
+            <input type="number" id="patient_id" name="patient_id" required>
+        </div>
         <div class="gender-group">
-            Gender:
-            <input type="radio" id="male" name="gender" value="male" required>
-            <label for="male">Male</label>
-            <input type="radio" id="female" name="gender" value="female" required>
-            <label for="female">Female</label>
+            <label>Gender:</label>
+            <label for="male">
+                <input type="radio" id="male" name="gender" value="male" required>
+                Male
+            </label>
+            <label for="female">
+                <input type="radio" id="female" name="gender" value="female" required>
+                Female
+            </label>
         </div>
-        <button type="submit">Submit</button>
+        <div class="form-field">
+            <button type="submit">Submit</button>
+        </div>
     </form>
 </body>
 </html>
