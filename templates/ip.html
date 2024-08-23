@@ -13,83 +13,111 @@
             height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
+            overflow: hidden; /* Prevents body scrolling */
         }
         form {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            width: 300px;
-        }
-        
-        input, button {
-            width: 93%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            width: 420px; /* Set width */
+            max-height: 90vh; /* Limit height to viewport height */
+            overflow: auto; /* Allows scrolling if content exceeds form height */
+            box-sizing: border-box; /* Ensure padding does not affect width */
         }
         .form-field {
-            width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        .form-field input, .form-field button {
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        input, button {
             width: 100%;
-            padding: 10px;
+            padding: 12px; /* Slightly increased padding */
             border-radius: 5px;
             border: 1px solid #ddd;
+            box-sizing: border-box; /* Ensure padding does not affect width */
         }
         button {
             background-color: #007bff;
             color: white;
             border: none;
+            margin-top: 10px;
+        }
+        .file-input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .file-input-group label {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: none;
         }
         .gender-group {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0;
+            margin-bottom: 15px;
         }
         .gender-group label {
-            margin-left: 5px;
-            font-size: 14px;
-        }
-        .gender-group input[type="radio"] {
-            margin-right: 5px;
-        }
-        .file-input-group {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            margin-right: 10px;
         }
-        .file-input-group label {
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-        .file-input-group input[type="file"] {
-            padding: 0;
-            margin-top: 0;
+        .gender-group label input {
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
     <form action="/submit-ip" method="post" enctype="multipart/form-data">
-        <input type="text" name="doctor_name" placeholder="Doctor Name" required>
-        <input type="text" name="surgery_name" placeholder="Surgery Name" required>
+        <div class="form-field">
+            <label for="doctor_name">Doctor Name</label>
+            <input type="text" id="doctor_name" name="doctor_name" placeholder="Doctor Name" required>
+        </div>
+        <div class="form-field">
+            <label for="surgery_name">Surgery Name Recommended</label>
+            <input type="text" id="surgery_name" name="surgery_name" placeholder="Surgery Name" required>
+        </div>
         <div class="file-input-group">
             <label for="prescription">Prescription</label>
-            <input type="file" name="prescription" accept="image/*" multiple required>
+            <input type="file" id="prescription" name="prescription" accept="image/*" multiple required>
         </div>
-        <input type="text" name="patient_name" placeholder="Patient Name" required>
-        <input type="tel" name="patient_phone" placeholder="Patient Phone" required>
-        <input type="number" name="patient_id" placeholder="Patient ID" required>
+        <div class="form-field">
+            <label for="patient_name">Patient Name</label>
+            <input type="text" id="patient_name" name="patient_name" placeholder="Patient Name" required>
+        </div>
+        <div class="form-field">
+            <label for="patient_phone">Patient Phone Number</label>
+            <input type="tel" id="patient_phone" name="patient_phone" placeholder="Patient Phone" pattern="\d{10}" required>
+            <div class="error-message"></div>
+        </div>
+        <div class="form-field">
+            <label for="patient_id">Patient ID</label>
+            <input type="number" id="patient_id" name="patient_id" placeholder="Patient ID" required>
+        </div>
         <div class="gender-group">
-            Gender:
-            <input type="radio" id="male" name="gender" value="male" required>
-            <label for="male">Male</label>
-            <input type="radio" id="female" name="gender" value="female" required>
-            <label for="female">Female</label>
+            <label>Gender:</label>
+            <label for="male">
+                <input type="radio" id="male" name="gender" value="male" required>
+                Male
+            </label>
+            <label for="female">
+                <input type="radio" id="female" name="gender" value="female" required>
+                Female
+            </label>
+        </div> 
+        <div class="form-field">
+            <button type="submit">Submit</button>
         </div>
-        <button type="submit">Submit</button>
     </form>
 </body>
 </html>
