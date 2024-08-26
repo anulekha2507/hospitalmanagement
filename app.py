@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template,jsonify
 
 app = Flask(__name__)
 op_forms_db = []
@@ -50,7 +50,6 @@ def submit_op():
         "patient_id": patient_id,
         "gender": gender
     })
-
     return "OP Form submitted successfully!"
 
 
@@ -68,7 +67,6 @@ def submit_ip():
     patient_phone = data.get('patient_phone')
     patient_id = data.get('patient_id')
     gender = data.get('gender')
-
     ip_forms_db.append({
         "doctor_name": doctor_name,
         "surgery_name": surgery_name,
@@ -78,10 +76,24 @@ def submit_ip():
         "patient_id": patient_id,
         "gender": gender
     })
-
     return "IP Form submitted successfully!"
 
+@app.route('/patient/<int:patient_id>', methods=['GET'])
+def get_patient(patient_id):
+    result = []
+    for form in op_forms_db:
+        if form['patient_id'] == str(patient_id):
+            result.append({"source": "OP Form", "details": form})
+    for form in ip_forms_db:
+        if form['patient_id'] == str(patient_id):
+            result.append({"source": "IP Form", "details": form})
 
+    if not result:
+        return jsonify({"message": "No records found for this patient ID"}), 404
+
+    return jsonify(result)
+
+            
 if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 3000))
